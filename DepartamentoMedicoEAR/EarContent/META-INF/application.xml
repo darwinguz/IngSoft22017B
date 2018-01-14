@@ -7,7 +7,7 @@
   <module>
     <web>
       <web-uri>DepartamentoMedicoJSF.war</web-uri>
-      <context-root>DepartamentoMedicoJSF</context-root>
+      <context-root>aplicacion</context-root>
     </web>
   </module>
 </application>
