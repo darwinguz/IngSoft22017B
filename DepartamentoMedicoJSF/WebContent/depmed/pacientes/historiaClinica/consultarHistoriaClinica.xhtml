@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/plantillas/pltPrincipalSinMenuEjecModal.xhtml">
+
+	<ui:define name="paginacion">
+		<ui:include src="/plantillas/pltPaginacion.xhtml">
+			<ui:param name="pagina"	value="Agenda / Historia clínica" />
+		</ui:include>
+	</ui:define>
+
+	<ui:define name="cuerpo">
+		<h:form id="frmBuscarPaciente" enctype="multipart/form-data"
+			acceptcharset="UTF-8">
+			<p:panel id="pnlBusqueda" header="Ingrese los datos para buscar">
+				<div class="grid condensed">
+					<!-- ******************** FILA NUMERO 1 ************************ -->
+					<div class="row cells8">
+						<div class="cell colspan3">
+							<ui:decorate
+								template="/plantillas/pltComponenteGeneralDisplayUpload.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblCedula" for="txtCedula" value="Número de Cédula: " />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText 
+										id="txtCedula" 
+										value="#{agendamientoForm.afPacienteCedula}"
+										style="width:100%"/> 
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<!-- ******************** FILA NUMERO 1 ************************ -->
+					</div>
+					
+				</div>
+			</p:panel>
+			<div>
+				<p:commandButton id='btnBuscar' value="Buscar"
+					action="#{agendamientoForm.buscarDatosPaciente()}"
+					onclick="PF('dialogoTrabajando').show();"
+					oncomplete="PF('dialogoTrabajando').show();"
+					ajax="false"
+					update=":frmBuscarPaciente:pnlBusqueda , :frmBuscarPaciente:pnlResultados" />
+
+				<p:commandButton id="btnLimpiar" value="Limpiar"
+					action="#{agendamientoForm.limpiarFormPacientes()}"
+					update=":frmBuscarPaciente:pnlBusqueda , :frmBuscarPaciente:pnlResultados" 
+					ajax="false"/>
+				
+			</div>
+
+
+			<p:panel id="pnlResultados" header="Resultados de la búsqueda">
+				<p:dataTable id="tblPaciente" rows="10" paginator="true"
+					value="#{agendamientoForm.afListPacienteDto}"
+					var="item"
+					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15"
+					emptyMessage="NO SE ENCONTRO EL PACIENTE CON LOS PARÁMETROS DE BÚSQUEDA INGRESADOS">
+					<p:column headerText="Identificación"
+						style="width: 2em ! important; text-align:left">
+						<h:outputText value="#{item.pcnCedula}"/>
+					</p:column>
+					<p:column headerText="Apellidos"
+						style="width: 4em ! important; text-align:left">
+						<h:outputText value="#{item.pcnApellidoPaterno} #{item.pcnApellidoMaterno}"/>
+					</p:column>
+					<p:column headerText="Nombres"
+						style="width: 4em ! important; text-align:left">
+						<h:outputText value="#{item.pcnPrimerNombre} #{item.pcnSegundoNombre}"/>
+					</p:column>
+					<p:column headerText="Observaciones"
+						style="width: 2em ! important; text-align:left">
+						<h:outputText value="#{generalesConstantesForm.getEstadoMatriculaActiva(item.fcesEstadoMatricula)}" style="width:100%"/> 
+					</p:column>
+					<p:column 
+						headerText="Opciones"
+						style="width: 4em ! important; text-align:center">
+						<p:panelGrid>
+					         <p:row>
+							    <p:column style="width: 2em ! important; text-align:center">
+							        <p:commandLink 
+										id="btnAsignar"
+										value="Asignar turno"
+										onclick="PF('dialogoTrabajando').show();"
+										oncomplete="PF('dialogoTrabajando').hide();"
+										action="#{agendamientoForm.irPersonalSalud(item)}"
+										ajax="false"
+										style="color:blue;" />
+							    </p:column>
+							 </p:row>
+						</p:panelGrid>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+
+			<div>
+				<p:commandButton 
+					id="btnRegresar"
+					value="Regresar" 
+					action="#{general.irMenuPrincipal()}"
+					ajax="false"
+					immediate="true" />
+				<p:commandButton 
+					id="btnNuevo"
+					value="Nuevo"
+					rendered="#{agendamientoForm.afRenderPaciente==0?'true':'false'}"
+					onclick="PF('dialogoTrabajando').show();"
+					oncomplete="PF('dialogoTrabajando').hide();"
+					update=":frmBuscarPaciente:pnlResultados" 
+					action="#{historiaClinicaForm.irCrearHistoria(sesionUsuarioForm.frmSuUsuario)}"
+					ajax="false"/>
+				<p:commandButton id="btnEditar" value="Editar"
+					rendered="#{agendamientoForm.afRenderPaciente==1?'true':'false'}"
+					onclick="PF('dialogoTrabajando').show();"
+					oncomplete="PF('dialogoTrabajando').hide();"
+					action="#{historiaClinicaForm.irEditarHistoria(agendamientoForm.afPacienteCedula)}"
+					ajax="false"/>
+				
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

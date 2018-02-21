@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition
+	template="/plantillas/pltPrincipalSinMenuEjecModal.xhtml">
+
+	<ui:define name="paginacion">
+		<ui:include src="/plantillas/pltPaginacion.xhtml">
+			<ui:param name="pagina" value="Turnos / Paciente / Especialidad" />
+		</ui:include>
+	</ui:define>
+
+	<ui:define name="cuerpo">
+		<h:form id="frmEspecialidades" enctype="multipart/form-data"
+			acceptcharset="UTF-8">
+			<p:panel id="pnlResultados" header="Lista de Especialidades">
+				<p:dataTable id="tblMedicos" rows="10" paginator="true" var="item"
+					value="#{turnos.doctores}"
+					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15"
+					emptyMessage="NO SE ENCONTRO RESULTADOS CON LOS PARAMETROS INGRESADOS">
+
+					<p:column headerText="Especialidad"
+						style="width: 3em ! important; text-align:left">
+						<h:outputText value="#{item.especialidad}" />
+					</p:column>
+					<p:column headerText="Médico"
+						style="width: 5em ! important; text-align:left">
+						<h:outputText
+							value="#{item.personal.primerApellido} #{item.personal.segundoApellido} #{item.personal.primerNombre} #{item.personal.primerNombre}" />
+					</p:column>
+					<p:column headerText="Horario"
+						style="width: 2em ! important; text-align:center">
+						<h:outputText
+							value="#{item.personal.horario.horaInicio} a #{item.personal.horario.horaFin}" />
+					</p:column>
+					<p:column headerText="Opciones"
+						style="width: 2em ! important; text-align:center">
+						<p:panelGrid>
+							<p:row>
+								<p:column style="width: 2em ! important; text-align:center">
+									<p:commandLink id="btnSeleccionar" value="Seleccionar Doctor"
+										action="#{turnos.agendarTurno(item)}"
+										onclick="PF('dialogoTrabajando').show();" ajax="false"
+										style="color:blue;" />
+								</p:column>
+							</p:row>
+						</p:panelGrid>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+
+			<div>
+				<p:commandButton id="btnRegresar" value="Regresar"
+					action="#{turnos.irConsultarPaciente()}" ajax="false"
+					immediate="true" />
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

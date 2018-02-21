@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.5.1.final using JasperReports Library version 6.5.1  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="MA" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="c958048a-3bb8-4f64-ac14-47f5daa7fb34">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="Departamento Medico EPN"/>
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<subDataset name="Empty Dataset1" uuid="2da0b7a5-761b-4b7b-944f-11b9834e69ae"/>
+	<queryString>
+		<![CDATA[SELECT * FROM departamentomedico_epn.medicamento med LEFT JOIN departamentomedico_epn.stock sto
+ON med.med_codigo=sto.med_codigo]]>
+	</queryString>
+	<field name="med_codigo" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="med_codigo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="medicamento"/>
+	</field>
+	<field name="med_nombre_generico" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="med_nombre_generico"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="medicamento"/>
+	</field>
+	<field name="med_forma_farmaceutica" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="med_forma_farmaceutica"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="medicamento"/>
+	</field>
+	<field name="sto_identificador" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="sto_identificador"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="stock"/>
+	</field>
+	<field name="sto_cantidad_actual" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.label" value="sto_cantidad_actual"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="stock"/>
+	</field>
+	<field name="sto_fecha_caducidad" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.label" value="sto_fecha_caducidad"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="stock"/>
+	</field>
+	<field name="sto_fecha_hora_actualizacion" class="java.sql.Timestamp">
+		<property name="com.jaspersoft.studio.field.label" value="sto_fecha_hora_actualizacion"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="stock"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="29">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<frame>
+				<reportElement x="24" y="0" width="510" height="29" uuid="5695cecb-5ff9-4cb6-aa27-e0a976a9bc6a">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+				</reportElement>
+				<rectangle>
+					<reportElement x="0" y="0" width="508" height="29" uuid="e33d878f-1795-4aeb-9278-bf9d97619d2d">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+				</rectangle>
+				<rectangle>
+					<reportElement x="0" y="0" width="508" height="15" backcolor="#3D73C4" uuid="a9ce1c85-c1c1-4e3a-9168-acf4ec2276ae"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="140" y="0" width="254" height="15" forecolor="#FFFFFF" uuid="832e5320-9e36-4b9e-b56c-b5b4c96d4682">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<topPen lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font isBold="true"/>
+					</textElement>
+					<text><![CDATA[REPORTE DEL STOCK DE MEDICAMENTOS]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement x="0" y="15" width="77" height="14" uuid="f04a318e-3df0-40b0-9ef0-81d12338c4bb">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+				</rectangle>
+				<staticText>
+					<reportElement x="4" y="15" width="68" height="15" uuid="2453f033-b5d0-466d-b0ff-b0885b0fb2ab">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<box>
+						<topPen lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Left" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[FECHA ACTUAL]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="90" y="15" width="230" height="13" uuid="d992703f-1910-4865-88c6-25d8f12a0a01"/>
+					<textFieldExpression><![CDATA[new Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="20">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<frame>
+				<reportElement x="24" y="0" width="510" height="20" uuid="002da6ec-b74f-4f53-bf89-e63ce7f5dbb0">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+				</reportElement>
+				<rectangle>
+					<reportElement x="340" y="-1" width="168" height="21" uuid="ba19eb88-8756-410f-8344-79b3633a9857">
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					</reportElement>
+				</rectangle>
+				<staticText>
+					<reportElement x="350" y="0" width="152" height="20" uuid="5937c9cc-da77-4160-b389-5d2a1e86b95a"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[FECHA DE CADUCIDAD]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement x="295" y="-1" width="45" height="21" uuid="5593f0f8-fe62-497f-9e0a-32d71a633838"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="298" y="0" width="42" height="20" uuid="bd399971-9bfe-461a-963f-4953a244c49c"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[CANTIDAD ACTUAL]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement x="104" y="-1" width="191" height="21" uuid="d15d5861-9fdd-48b2-b0f1-ccb4691d0d43"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="141" y="0" width="116" height="20" uuid="e69622bf-1dd7-4fc3-857d-834ec59076e0"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[FORMA FARMACÉUTICA]]></text>
+				</staticText>
+				<rectangle>
+					<reportElement x="0" y="-1" width="104" height="21" uuid="86b43ffe-6e0e-477d-a670-fd2cdc184c5e"/>
+				</rectangle>
+				<staticText>
+					<reportElement x="20" y="0" width="58" height="20" uuid="9203bed8-8373-4b8f-a738-7de9d3307098"/>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<text><![CDATA[NOMBRE GENÉRICO]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="21" splitType="Stretch">
+			<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+			<frame>
+				<reportElement x="24" y="-1" width="510" height="22" uuid="9f32c485-b534-40a6-b7d1-62d9c697e80a">
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+				</reportElement>
+				<rectangle>
+					<reportElement x="340" y="1" width="168" height="21" uuid="93bc219b-f2c7-4cdf-bf95-eef4fa439966">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+				</rectangle>
+				<rectangle>
+					<reportElement x="295" y="1" width="45" height="21" uuid="323fb378-e73b-4aef-984e-55efa608e152">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+				</rectangle>
+				<rectangle>
+					<reportElement x="104" y="1" width="191" height="21" uuid="efb70a8e-876d-456f-94be-da5e288a1d4d"/>
+				</rectangle>
+				<rectangle>
+					<reportElement x="0" y="1" width="104" height="21" uuid="db1417c4-f550-4c66-b9dc-786953953bd4">
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+				</rectangle>
+				<textField>
+					<reportElement x="2" y="1" width="100" height="20" uuid="9fdebc41-489e-49b6-83c6-4e562068b7c8">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="de5f223d-acf6-4282-bae3-eabfce75d879"/>
+					</reportElement>
+					<textElement textAlignment="Center"/>
+					<textFieldExpression><![CDATA[$F{med_nombre_generico}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="129" y="1" width="140" height="20" uuid="cf273c65-e1a9-41af-b1c3-673a123173fd">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="b504e710-fd70-4ca0-bf65-9b4167d31169"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{med_forma_farmaceutica}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="298" y="1" width="41" height="20" uuid="25816440-a505-4f34-a95c-5601cdad320e">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="1a89963a-0636-44b9-8551-b6ac9564b0e5"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{sto_cantidad_actual}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="370" y="1" width="100" height="20" uuid="92c740d5-87bf-4437-96c8-231feb8a493e">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="49415d8b-b1b6-45e9-addd-aaccab012b12"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{sto_fecha_caducidad}]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</detail>
+</jasperReport>

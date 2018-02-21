@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="/plantillas/pltPrincipalSinMenuEjecModal.xhtml">
+
+	<ui:define name="paginacion">
+		<ui:include src="/plantillas/pltPaginacion.xhtml">
+			<ui:param name="pagina" value="Personal Salud  / Agenda Médica / Historial " />
+		</ui:include>
+	</ui:define>
+
+	<ui:define name="cuerpo">
+	<script language="JavaScript">
+	//<![CDATA[
+		function abrirVentaReporte(formato, nombreReporte, tipo){
+			var url = "/aplicacion/reportes";
+			url = url + "?nombreJasper=" + nombreReporte;
+			url = url + "&formato=" + formato;
+			url = url + "&tipo=" + tipo;
+			if(formato == 'vista'){
+				var reportWindow = window.open(url);
+				reportWindow.focus();
+			}else{
+				var reportWindow = window.open(url);
+			}
+	    } 
+	 //]]> 
+	</script>
+	<script language="JavaScript">
+		//<![CDATA[
+		    function verificarErrores(){
+		        var idVarAgregar = 'compOculto:txtValidador';
+		     	var varAgregar = document.getElementById(idVarAgregar);
+			    	if(varAgregar.value == 1){
+			  		document.getElementById('frmHistorial:cmdlModalReporte').click();
+			 	    }
+		  	    }
+		 //]]> 
+	</script>
+		<h:form id="frmHistorial" enctype="multipart/form-data"
+			acceptcharset="UTF-8">
+			<p:panel id="pnlBusqueda" header="Ingrese los datos para buscar">
+				<div class="grid condensed">
+					<!-- ******************** FILA NUMERO 1 ************************ -->
+					<div class="row cells8">
+						<div class="cell colspan3">
+							<ui:decorate template="/plantillas/pltComponenteGeneralDisplayUpload.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblEspecialidad" for="slcEspecialidad" value="Especialidad: " />
+								</ui:define>
+								<ui:define name="valor">
+									<h:selectOneMenu 
+										id="slcEspecialidad"
+										value="#{consultaExternaForm.cefEspId}"
+										style="width: 100%; text-align:left">
+										<f:selectItem
+											itemLabel="#{generalesConstantesForm.appSeleccioneTodos}"
+											itemValue="#{generalesConstantesForm.appIdBase}" />
+										<f:selectItems
+											var="item" 
+											value="#{consultaExternaForm.cefListEspecialidadDto}"
+											itemLabel="#{item.espNombre}"
+											itemValue="#{item.espId}" 
+											update="slcEspecialidad" />
+									</h:selectOneMenu>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<!-- ******************** FILA NUMERO 1 ************************ -->
+					</div>
+					<div class="row cells8">
+						<!-- ******************** FILA NUMERO 2 ************************ -->
+						<div class="cell colspan3">
+							<ui:decorate template="/plantillas/pltComponenteGeneralDisplayUpload.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblPseudonimo" value="Paciente: " />
+								</ui:define>
+								<ui:define name="valor">
+									<p:outputLabel
+										disabled="true" 
+										value="#{consultaExternaForm.cefTurnoDto.pcnApellidoPaterno} #{consultaExternaForm.cefTurnoDto.pcnApellidoMaterno} #{consultaExternaForm.cefTurnoDto.pcnPrimerNombre} #{consultaExternaForm.cefTurnoDto.pcnSegundoNombre}"
+										style="width:100%"/> 
+								</ui:define>
+							</ui:decorate>
+						</div>
+					<!-- ******************** FILA NUMERO 2 ************************ -->
+					</div>
+				</div>
+			</p:panel>
+			
+			<div>
+				<p:commandButton id='btnBuscar' value="Buscar"
+					action="#{consultaExternaForm.buscarHistorialConsultaExterna()}" 
+					update=":frmHistorial:pnlBusqueda , :frmHistorial:pnlResultados" />
+
+				<p:commandButton id="btnLimpiar" value="Limpiar"
+					action="#{consultaExternaForm.limpiarHistorialConsultaExternaInfo()}" 
+					update=":frmHistorial:pnlBusqueda , :frmHistorial:pnlResultados" />
+				
+			</div>
+			<p:panel id="pnlResultados" header="Resultados de la búsqueda">
+				<p:dataTable id="tblMedicos" rows="10" paginator="true"
+					var="item" 
+					value="#{consultaExternaForm.cefListConsultaExternaDto}"
+					paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="5,10,15"
+					emptyMessage="NO SE ENCONTRO RESULTADOS CON LOS PARAMETROS INGRESADOS">
+
+					<p:column headerText="Especialidad" style="width: 3em ! important; text-align:left">
+						<h:outputText value="#{item.espNombre}"/>
+					</p:column>
+					<p:column headerText="Médico" style="width: 3em ! important; text-align:left">
+						<h:outputText value="#{item.mdcPrimerApellido} #{item.mdcNombres} "/>
+					</p:column>
+					<p:column headerText="Fecha de atención" style="width: 3em ! important; text-align:left">
+						<h:outputText value="#{item.trnFecha}">
+							<f:convertDateTime pattern="yyyy - MMMMM - dd" locale="es_EC"/>
+						</h:outputText>
+					</p:column>
+					<p:column headerText="Opción" style="width: 2em ! important; text-align:center">
+						<p:panelGrid>
+					         <p:row>
+					         	<p:column style="width: 2em ! important; text-align:center">
+									<p:commandLink id="btnVisualizar" value="Visualizar"
+										action="#{consultaExternaForm.generarDatosReporteConsultaExterna(item)}"
+										onclick="PF('dialogoTrabajando').show();" 
+										oncomplete="PF('dialogoTrabajando').hide();"										
+										ajax="false"
+										style="color:blue;" >
+									</p:commandLink>
+								</p:column>
+					 		</p:row>
+						</p:panelGrid>
+					</p:column>
+				</p:dataTable>
+			</p:panel>
+
+			<div>
+				<p:commandButton id="btnRegresar" value="Regresar" action="#{general.irMenuPrincipal()}" ajax="false" immediate="true" />
+				<p:commandButton id="cmdlModalReporte" value="Imprimir reporte" style="visibility:hidden;">	<p:ajax oncomplete="abrirVentaReporte('PDF','consultaExterna','FORM_002');" async="false" />
+				</p:commandButton>
+			</div>
+		</h:form>
+		<h:form id="compOculto" style="visibility:hidden;">
+			<p:inputText id="txtValidador"	value="#{consultaExternaForm.cefActivarReporte}" />
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

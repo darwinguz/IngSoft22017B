@@ -1,0 +1,764 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition
+	template="/plantillas/pltPrincipalSinMenuEjecModalForms.xhtml">
+
+	<ui:define name="paginacion">
+		<ui:include src="/plantillas/pltPaginacion.xhtml">
+			<ui:param name="pagina"
+				value="Admisión / Historias Clínicas / Actualización de Historia " />
+		</ui:include>
+	</ui:define>
+
+	<ui:define name="cuerpo">
+		<script language="JavaScript">
+		//<![CDATA[
+		  function stopRKey(evt) { 
+		     var evt = (evt) ? evt : ((event) ? event : null); 
+		     var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
+		     if ((evt.keyCode == 13) && (node.type=="text"))  {return false;} 
+		  } 
+		  document.onkeypress = stopRKey; 
+		//]]> 
+		</script>
+		<h:form id="frmCrearHistoria" enctype="multipart/form-data"	acceptcharset="UTF-8"  class="uce-panel-header">
+			<p:growl for="alertas" showDetail="true" autoUpdate="true" sticky="true" />
+			<p:panel id="pnlFormulario"
+				header="SNS-MSP / HCU-form.001 / 2008 ADMISIÓN">
+				<div class="grid condensed">
+
+					<!-- ******************** FILA NUMERO 1 ************************ -->
+					<div class="row cells10">
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelLabelValue.xhtml">
+								<ui:define name="etiqueta1.1">
+									<p:outputLabel value="Institución del Sistema" />
+								</ui:define>
+								<ui:define name="valor">
+									<h:inputText style="width: 100%; text-align:center"
+										value="#{historiaClinicaForm.hclPaciente.hclInstitucion}"
+										disabled="true" />
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelLabelValue.xhtml">
+								<ui:define name="etiqueta1.1">
+									<p:outputLabel value="Unidad Operativa" />
+								</ui:define>
+								<ui:define name="valor">
+									<h:inputText style="width: 100%; text-align:center"
+										value="#{historiaClinicaForm.hclPaciente.hclUnidadOperativa}"
+										disabled="true" />
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan1">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelLabelValue.xhtml">
+								<ui:define name="etiqueta1.1">
+									<p:outputLabel value="Código OU" />
+								</ui:define>
+								<ui:define name="valor">
+									<h:inputText style="width: 100%; text-align:center"
+										value="#{historiaClinicaForm.hclPaciente.hclCodigoOu}"
+										disabled="true" />
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan3">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelNlabelNvalue.xhtml">
+								<ui:define name="etiqueta1">
+									<p:outputLabel value="Código Localización" />
+								</ui:define>
+								<ui:define name="etiqueta2.1">
+									<p:outputLabel value="Parroquia" />
+								</ui:define>
+								<ui:define name="etiqueta2.2">
+									<p:outputLabel value="Cantón" />
+								</ui:define>
+								<ui:define name="etiqueta2.3">
+									<p:outputLabel value="Provincia" />
+								</ui:define>
+								<ui:define name="valor3.1">
+									<h:inputText style="width: 100%; text-align:center"
+										value="#{historiaClinicaForm.hclPaciente.hclClParroquia}"
+										disabled="true" />
+								</ui:define>
+								<ui:define name="valor3.2">
+									<h:inputText style="width: 100%; text-align:center"
+										value="#{historiaClinicaForm.hclPaciente.hclClCanton}"
+										disabled="true" />
+								</ui:define>
+								<ui:define name="valor3.3">
+									<h:inputText style="width: 100%; 
+										text-align:center"
+										value="#{historiaClinicaForm.hclPaciente.hclClProvincia}"
+										disabled="true" />
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelLabelValue.xhtml">
+								<ui:define name="etiqueta1.1">
+									<p:outputLabel value="Número de HISTORIA CLÍNICA" />
+								</ui:define>
+								<ui:define name="valor">
+									<h:inputText style="width: 100%; text-align:center"
+										value="#{historiaClinicaForm.hclPaciente.hclNumeroHistoria}"
+										disabled="false" />
+								</ui:define>
+							</ui:decorate>
+						</div>
+					</div>
+					<!-- ******************** FILA NUMERO 2 ************************ -->
+					<div class="row cells10">
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblTipoPaciente" for="slcTipoPaciente"
+										value="Tipo de Paciente" />
+								</ui:define>
+								<ui:define name="valor">
+									<h:selectOneRadio id="slcTipoPaciente" layout="pageDirection"
+										value="#{historiaClinicaForm.hclPaciente.hclTipoPaciente}">
+										<f:selectItem itemLabel="Particular" itemValue="P" />
+										<f:selectItem itemLabel="Estudiante" itemValue="E" />
+										<p:ajax
+											listener="#{historiaClinicaForm.cambiarTipoPaciente()}"
+											update="slcFacultad slcCarrera slcSemestre" />
+									</h:selectOneRadio>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan3">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel value="Facultad" for="slcFacultad" />
+								</ui:define>
+								<ui:define name="valor">
+									<h:selectOneMenu id="slcFacultad"
+										style="width: 100%; text-align:left"
+										value="#{historiaClinicaForm.hclFacultad.fclId}"
+										disabled="#{historiaClinicaForm.hclRenderTipoPaciente eq true}">
+										<f:selectItem
+											itemLabel="#{historiaClinicaForm.hclPaciente.carrera.crrFclId.fclNombre}"
+											itemValue="#{historiaClinicaForm.hclPaciente.carrera.crrFclId.fclId}" />
+										<f:selectItems value="#{historiaClinicaForm.hclListFacultad}"
+											var="item" itemLabel="#{item.fclNombre}"
+											itemValue="#{item.fclId}" update="slcFacultad" />
+										<p:ajax event="valueChange"
+											listener="#{historiaClinicaForm.buscarCarreras()}"
+											update="slcFacultad slcCarrera" />
+									</h:selectOneMenu>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan3">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel value="Carrera" for="slcCarrera" />
+								</ui:define>
+								<ui:define name="valor">
+									<h:selectOneMenu id="slcCarrera"
+										style="width: 100%; text-align:left"
+										value="#{historiaClinicaForm.hclCarrera.fclId}"
+										disabled="#{historiaClinicaForm.hclRenderTipoPaciente eq true}">
+										<f:selectItem
+											itemLabel="#{historiaClinicaForm.hclPaciente.carrera.fclNombre}"
+											itemValue="#{historiaClinicaForm.hclPaciente.carrera.fclId}" />
+										<f:selectItems value="#{historiaClinicaForm.hclListCarrera}"
+											var="item" itemLabel="#{item.fclDescripcion}"
+											itemValue="#{item.fclId}" update="slcCarrera" />
+										<p:ajax update="@this" />
+									</h:selectOneMenu>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel value="Semestre" for="slcSemestre" />
+								</ui:define>
+								<ui:define name="valor">
+									<h:selectOneMenu id="slcSemestre"
+										style="width: 100%; text-align:left"
+										disabled="#{historiaClinicaForm.hclRenderTipoPaciente eq true}"
+										value="#{historiaClinicaForm.hclPaciente.hclSemestre}">
+										<f:selectItem
+											itemLabel="#{generalesConstantesForm.appSeleccione}"
+											itemValue="#{generalesConstantesForm.appIdBase}" />
+										<f:selectItems value="#{listasCombosForm.listaSemestre}"
+											var="item" itemLabel="#{item.label}"
+											itemValue="#{item.value}" update="slcSemestre" />
+									</h:selectOneMenu>
+								</ui:define>
+							</ui:decorate>
+						</div>
+					</div>
+					
+					<!-- ******************** FILA NUMERO 3 ************************ -->
+					<div class="row cells10">
+						<div class="cell colspan10">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayHeader.xhtml">
+								<ui:define name="cabecera">
+									<p:outputLabel  value="1.- REGISTRO DE PRIMERA ADMISIÓN" />
+								</ui:define>
+							</ui:decorate>
+						</div>
+					</div>
+					
+					<!-- ******************** FILA NUMERO 4 ************************ -->
+					<div class="row cells10">
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel value="Identificación" id="lblCedula"
+										for="txtCedula" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText id="txtCedula" style="width:96%" required="true"
+										value="#{historiaClinicaForm.hclPaciente.pacCedula}">
+									</p:inputText>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblApellidoPaterno" for="txtApellidoPaterno"
+										value="Primer apellido" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText id="txtApellidoPaterno" style="width:96%"
+										required="true"
+										value="#{historiaClinicaForm.hclPaciente.pacApellidoPaterno}">
+										<p:ajax event="blur" listener="#{historiaClinicaForm.validarApellidoPaterno()}" />
+									</p:inputText>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel value="Segundo apellido" id="lblApellidoMaterno"
+										for="txtApellidoMaterno" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText id="txtApellidoMaterno" style="width:96%"
+										value="#{historiaClinicaForm.hclPaciente.pacApellidoMaterno}">
+										<p:ajax event="blur"
+											listener="#{historiaClinicaForm.validarApellidoMaterno()}" />
+									</p:inputText>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel value="Primer Nombre" id="lblPrimerNombre"
+										for="txtPrimerNombre" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText id="txtPrimerNombre" style="width:96%"
+										required="true"
+										value="#{historiaClinicaForm.hclPaciente.pacPrimerNombre}">
+										<p:ajax event="blur"
+											listener="#{historiaClinicaForm.validarPrimerNombre()}" />
+									</p:inputText>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel value="Segundo Nombre" id="lblSegundoNombre"
+										for="txtSegundoNombre" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText id="txtSegundoNombre" style="width:96%"
+										value="#{historiaClinicaForm.hclPaciente.pacSegundoNombre}">
+										<p:ajax event="blur"
+											listener="#{historiaClinicaForm.validarSegundoNombre()}" />
+									</p:inputText>
+								</ui:define>
+							</ui:decorate>
+						</div>
+					</div>
+
+					<!-- ******************** FILA NUMERO 5 ************************ -->
+					<div class="row cells10">
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblDireccionPcn" for="txtDireccionPcn"
+										value="Dirección de Residencia Habitual" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputTextarea id="txtDireccionPcn"
+										value="#{historiaClinicaForm.hclPaciente.pacDireccion}" 
+										style="width: 98%; max-height:56px; min-height:56px; resize: none;">
+										<p:ajax event="blur"
+											listener="#{historiaClinicaForm.validarDireccionPaciente()}" />
+									</p:inputTextarea>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan1">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblProvincia" for="slcProvincia"	value="Provincia" />
+								</ui:define>
+								<ui:define name="valor">
+									<h:selectOneMenu id="slcProvincia"
+										style="width: 100%; text-align:left;"
+										value="#{historiaClinicaForm.hclProvincia.lgCodigo}">
+										<f:selectItem
+											itemLabel="#{historiaClinicaForm.hclPaciente.lugarGeografico.parroquia.cntFkPrvLgCodigo.lgNombre}"
+											itemValue="#{historiaClinicaForm.hclPaciente.lugarGeografico.parroquia.cntFkPrvLgCodigo.lgCodigo}" />
+										<f:selectItems value="#{historiaClinicaForm.hclListProvincia}"
+											var="item" itemLabel="#{item.lgNombre}"
+											itemValue="#{item.lgCodigo}" update="slcProvincia" />
+										<p:ajax event="valueChange"
+											listener="#{historiaClinicaForm.buscarCantones()}"
+											update="slcProvincia slcCanton slcParroquia" />
+									</h:selectOneMenu>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan1">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblCanton" for="slcCanton" value="Cantón" />
+								</ui:define>
+								<ui:define name="valor">
+									<h:selectOneMenu id="slcCanton"
+										style="width: 100%; text-align:left"
+										value="#{historiaClinicaForm.hclCanton.lgCodigo}">
+										<f:selectItem
+											itemLabel="#{historiaClinicaForm.hclPaciente.lugarGeografico.parroquia.lgNombre}"
+											itemValue="#{historiaClinicaForm.hclPaciente.lugarGeografico.parroquia.lgCodigo}" />
+										<f:selectItems value="#{historiaClinicaForm.hclListCanton}"
+											var="item" itemLabel="#{item.lgNombre}"
+											itemValue="#{item.lgCodigo}" update="slcCanton" />
+										<p:ajax event="valueChange"
+											listener="#{historiaClinicaForm.buscarParroquias()}"
+											update="slcCanton slcParroquia" />
+									</h:selectOneMenu>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan1">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblParroquia" for="slcParroquia"
+										value="Parroquia" />
+								</ui:define>
+								<ui:define name="valor">
+									<h:selectOneMenu id="slcParroquia"
+										style="width: 100%; text-align:left"
+										value="#{historiaClinicaForm.hclParroquia.lgCodigo}">
+										<f:selectItem
+											itemLabel="#{historiaClinicaForm.hclPaciente.lugarGeografico.lgNombre}"
+											itemValue="#{historiaClinicaForm.hclPaciente.lugarGeografico.lgCodigo}" />
+										<f:selectItems value="#{historiaClinicaForm.hclListParroquia}"
+											var="item" itemLabel="#{item.lgNombre}"
+											itemValue="#{item.lgCodigo}" update="slcParroquia" />
+										<p:ajax update="@this" />
+									</h:selectOneMenu>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblBarrio" for="txtBarrio" value="Barrio" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputTextarea id="txtBarrio"
+										style="width: 98%; max-height:56px; min-height:56px; resize: none;"
+										value="#{historiaClinicaForm.hclPaciente.pacBarrio}">
+										<p:ajax event="blur"
+											listener="#{historiaClinicaForm.validarBarrio()}" />
+									</p:inputTextarea>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan1">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblZona" for="slcZona" value="Zona" />
+								</ui:define>
+								<ui:define name="valor">
+									<h:selectOneMenu id="slcZona"
+										style="width: 100%; text-align:left"
+										value="#{historiaClinicaForm.hclPaciente.pacZona}">
+										<f:selectItem
+											itemLabel="#{generalesConstantesForm.appSeleccione}"
+											itemValue="#{generalesConstantesForm.appIdBase}" />
+										<f:selectItems value="#{listasCombosForm.listaZona}"
+											var="item" itemLabel="#{item.label}"
+											itemValue="#{item.value}" />
+									</h:selectOneMenu>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblTelefonoPcn" for="txtTelefonoPcn"
+										value="N. Teléfono" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputNumber id="txtTelefonoPcn" style="width: 98%"
+										minValue="0000000000" maxValue="0999999999" maxlength="10"
+										thousandSeparator="" decimalPlaces="0"
+										value="#{historiaClinicaForm.hclPaciente.pacTelefono}">
+										<p:ajax event="blur"
+											listener="#{historiaClinicaForm.validarTelefonoPaciente()}" />
+									</p:inputNumber>
+								</ui:define>
+							</ui:decorate>
+						</div>
+					</div>
+
+					<div class="row cells10">
+						<div class="cell colspan10">
+							<p:messages for="parteB" showDetail="true" autoUpdate="true" closable="true" />
+						</div>
+					</div>
+					<!-- ******************** FILA NUMERO 6 ************************ -->
+					<div class="row cells10">
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblFechaNacimiento" for="txtFechaNacimiento"
+										value="Fecha de Nacimiento" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:calendar id="txtFechaNacimiento" locale="es"
+										navigator="true" readonlyInput="true" pattern="dd-MM-yyyy"
+										maxdate="#{currentDate}"
+										value="#{historiaClinicaForm.hclPaciente.pacFechaNacimiento}">
+										<p:ajax event="dateSelect"
+											listener="#{historiaClinicaForm.calcularEdad()}"
+											update="lblEdad" />
+									</p:calendar>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel value="Lugar de Nacimiento" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText style="width:95%"
+										value="#{historiaClinicaForm.hclPaciente.pacLugarNacimiento}" />
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan1">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblNacionalidad" for="slcNacionalidad"
+										value="Nacionalidad" title="País" />
+								</ui:define>
+								<ui:define name="valor">
+									<h:selectOneMenu id="slcNacionalidad"
+										style="width: 100%; text-align:left"
+										value="#{historiaClinicaForm.hclPaciente.pacNacionalidad}">
+										<f:selectItem
+											itemLabel="#{generalesConstantesForm.appSeleccione}"
+											itemValue="#{generalesConstantesForm.appIdBase}" />
+										<f:selectItems value="#{listasCombosForm.listaNaconalidad}"
+											var="item" itemLabel="#{item.label}"
+											itemValue="#{item.value}" update="slcNacionalidad" />
+									</h:selectOneMenu>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan1">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel value="Grupo Cultural" for="slcGrupoCultural" />
+								</ui:define>
+								<ui:define name="valor">
+									<h:selectOneMenu id="slcGrupoCultural"
+										style="width: 100%; text-align:left"
+										value="#{historiaClinicaForm.hclPaciente.pacGrupoCultural}">
+										<f:selectItem
+											itemLabel="#{generalesConstantesForm.appSeleccione}"
+											itemValue="#{generalesConstantesForm.appIdBase}" />
+										<f:selectItems value="#{listasCombosForm.listaCultura}"
+											var="item" itemLabel="#{item.label}"
+											itemValue="#{item.value}" update="slcGrupoCultural" />
+									</h:selectOneMenu>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan1">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel value="Edad" title="Años Cumplidos"
+										for="lblEdad" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:outputLabel id="lblEdad" value="#{historiaClinicaForm.hclEdad}"/>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan1">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblSexo" for="slcSexo" value="Sexo"
+										title="Género" />
+								</ui:define>
+								<ui:define name="valor">
+									<h:selectOneMenu id="slcSexo"
+										style="width: 100%; text-align:left"
+										value="#{historiaClinicaForm.hclPaciente.pacSexo}">
+										<f:selectItem
+											itemLabel="#{generalesConstantesForm.appSeleccione}"
+											itemValue="#{generalesConstantesForm.appSeleccione}" />
+										<f:selectItems value="#{listasCombosForm.listaSexo}"
+											var="item" itemLabel="#{item.label}"
+											itemValue="#{item.value}" update="slcSexo" />
+									</h:selectOneMenu>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan1">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel value="Estado Civil" for="slcEstadoCivil" />
+								</ui:define>
+								<ui:define name="valor">
+
+									<h:selectOneMenu id="slcEstadoCivil"
+										style="width: 100%; text-align:left"
+										value="#{historiaClinicaForm.hclPaciente.pacEstadoCivil}">
+										<f:selectItem
+											itemLabel="#{generalesConstantesForm.appSeleccione}"
+											itemValue="#{generalesConstantesForm.appIdBase}" />
+										<f:selectItems value="#{listasCombosForm.listaEstadoCivil}"
+											var="item" itemLabel="#{item.label}"
+											itemValue="#{item.value}" update="slcEstadoCivil" />
+									</h:selectOneMenu>
+
+
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan1">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel value="Instrucción"
+										title="Último año de Educación APROBADO" for="slcInstruccion" />
+								</ui:define>
+								<ui:define name="valor">
+									<h:selectOneMenu id="slcInstruccion"
+										style="width: 100%; text-align:left"
+										value="#{historiaClinicaForm.hclPaciente.pacInstruccion}">
+										<f:selectItem
+											itemLabel="#{generalesConstantesForm.appSeleccione}"
+											itemValue="#{generalesConstantesForm.appIdBase}" />
+										<f:selectItems value="#{listasCombosForm.listaInstruccion}"
+											var="item" itemLabel="#{item.label}"
+											itemValue="#{item.value}" update="slcInstruccion" />
+									</h:selectOneMenu>
+								</ui:define>
+							</ui:decorate>
+						</div>
+					</div>
+					<!-- ******************** FILA NUMERO 7 ************************ -->
+					<div class="row cells10">
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel value="Fecha de Admisión" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:outputLabel style="width:95%" value="#{currentDate}">
+										<f:convertDateTime pattern="YYYY-MMMMM-dd HH:mm"
+											timeZone='America/Guayaquil' />
+									</p:outputLabel>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblOcupacion" for="txtOcupacion"
+										value="Ocupación" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText id="txtOcupacion" style="width:95%"
+										value="#{historiaClinicaForm.hclPaciente.pacOcupacion}">
+										<p:ajax event="blur"
+											listener="#{historiaClinicaForm.validarOcupacion()}" />
+									</p:inputText>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblPatrono" for="txtPatrono"
+										value="Empresa dónde trabaja" />
+								</ui:define>
+								<ui:define name="valor">
+
+									<p:inputText id="txtPatrono" style="width:95%"
+										value="#{historiaClinicaForm.hclPaciente.pacEmpresaLabora}">
+										<p:ajax event="blur"
+											listener="#{historiaClinicaForm.validarEmpresaLabora()}" />
+									</p:inputText>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblSeguroSalud" for="slcSeguroSalud"
+										value="Tipo de Seguro de Salud" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText id="slcSeguroSalud" style="width:95%"
+										value="#{historiaClinicaForm.hclPaciente.pacSeguroSalud}" />
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblReferido" for="txtReferido"
+										value="Referido de:" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText id="txtReferido" style="width:95%"
+										value="#{historiaClinicaForm.hclPaciente.pacReferidoDe}">
+										<p:ajax event="blur"
+											listener="#{historiaClinicaForm.validarReferido()}" />
+									</p:inputText>
+								</ui:define>
+							</ui:decorate>
+						</div>
+					</div>
+
+					<!-- ******************** FILA NUMERO 8 ************************ -->
+					<div class="row cells10">
+						<div class="cell colspan3">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblFamiliar" for="txtFamiliar"
+										value="En caso necesario llamar a:" title="Nombre y Apellido" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText id="txtFamiliar" style="width:95%"
+										value="#{historiaClinicaForm.hclPaciente.pacFamiliar}">
+										<p:ajax event="blur"
+											listener="#{historiaClinicaForm.validarFamiliar()}" />
+									</p:inputText>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblParentesco" for="txtParentesco"
+										value="Parentesco-Afinidad" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText id="txtParentesco" style="width:95%"
+										value="#{historiaClinicaForm.hclPaciente.pacParentesco}">
+										<p:ajax event="blur"
+											listener="#{historiaClinicaForm.validarParentesco()}" />
+									</p:inputText>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan3">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel value="Dirección" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText style="width:95%"
+										value="#{historiaClinicaForm.hclPaciente.pacDireccionPariente}" />
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan2">
+							<ui:decorate
+								template="/plantillas/formularios/admision/pltComponenteGeneralDisplayLabelValue.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblTelefonoFamiliar"
+										for="txtTelefonoFamiliar" value="N° Teléfono" />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputNumber id="txtTelefonoFamiliar" style="width:100%"
+										minValue="0000000000" maxValue="0999999999" maxlength="10"
+										thousandSeparator="" decimalPlaces="0"
+										value="#{historiaClinicaForm.hclPaciente.pacTelefonoFamiliar}">
+									<p:ajax event="blur" listener="#{historiaClinicaForm.validarTelefonoPariente()}" />
+									</p:inputNumber>
+								</ui:define>
+							</ui:decorate>
+						</div>
+					</div>
+				</div>
+			</p:panel>
+			<div>
+				<p:commandButton id="btnRegresar" value="Regresar"
+					action="#{general.irMenuPrincipal()}" ajax="false"
+					immediate="true" />
+				<p:commandButton id="btnGuardar" value="Guardar"
+					action="#{historiaClinicaForm.editarHistoriaClinica(sesionUsuarioForm.frmSuUsuario)}" ajax="false" />
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

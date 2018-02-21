@@ -1,0 +1,670 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition
+	template="/plantillas/pltPrincipalSinMenuEjecModal.xhtml">
+	<ui:define name="paginacion">
+		<ui:include src="/plantillas/pltPaginacion.xhtml">
+			<ui:param name="pagina" value="Historia Clínica / Nuevo Paciente" />
+		</ui:include>
+	</ui:define>
+	<ui:define name="cuerpo">
+		<script language="JavaScript">
+		//<![CDATA[
+		  function stopRKey(evt) { 
+		     var evt = (evt) ? evt : ((event) ? event : null); 
+		     var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
+		     if ((evt.keyCode == 13) && (node.type=="text"))  {return false;} 
+		  } 
+		  document.onkeypress = stopRKey; 
+		//]]> 
+		</script>
+		<h:form id="frmCrearHistoria" enctype="multipart/form-data"
+			acceptcharset="UTF-8" class="uce-panel-header">
+			<p:growl for="alertas" autoUpdate="true" showDetail="true" />
+			<p:panel id="pnlFormHistoriaClinica"
+				header="Formulario de Historia Clínica">
+				<p:panel id="pnlInformacionPersonal" header="Información Personal">
+					<div class="grid condensed">
+						<div class="row cells8">
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblNumeroCedula" for="txtNumeroCedula"
+											value="Número de Cédula: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputText id="txtNumeroCedula" maxlength="10"
+											style="width:97%;" required="true"
+											value="#{historiaClinica.paciente.numeroCedula}">
+										</p:inputText>
+									</ui:define>
+								</ui:decorate>
+							</div>
+						</div>
+						<div class="row cells8">
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblPrimerNombre" for="txtPrimerNombre"
+											value="Primer Nombre: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputText id="txtPrimerNombre" style="width:97%;"
+											required="true"
+											value="#{historiaClinica.paciente.primerNombre}">
+										</p:inputText>
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblSegundoNombre" for="txtSegundoNombre"
+											value="Segundo Nombre: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputText id="txtSegundoNombre" style="width:97%;"
+											required="true"
+											value="#{historiaClinica.paciente.segundoNombre}">
+										</p:inputText>
+									</ui:define>
+								</ui:decorate>
+							</div>
+						</div>
+						<div class="row cells8">
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblPrimerApellido" for="txtPrimerApellido"
+											value="Primer Apellido: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputText id="txtPrimerApellido" style="width:97%;"
+											required="true"
+											value="#{historiaClinica.paciente.primerApellido}">
+										</p:inputText>
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblSegundoApellido"
+											for="txtSegundoApellido" value="Segundo Apellido: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputText id="txtSegundoApellido" style="width:97%;"
+											required="true"
+											value="#{historiaClinica.paciente.segundoApellido}">
+										</p:inputText>
+									</ui:define>
+								</ui:decorate>
+							</div>
+						</div>
+						<div class="row cells8">
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblFechaNacimiento"
+											for="txtFechaNacimiento" value="Fecha de nacimiento: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:calendar id="txtFechaNacimiento" navigator="false"
+											showOn="none" locale="es" pattern="dd-MM-yyyy" mask="true"
+											placeholder="dd-MM-yyyy"
+											sconverterMessage="La fecha ingresada no es válida. (dd-mm-aaaa) Ejemplo: 26-05-2016"
+											required="true"
+											value="#{historiaClinica.paciente.fechaNacimiento}">
+										</p:calendar>
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralDisplay.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblSexo" for="slcSexo" value="Sexo: " />
+									</ui:define>
+									<ui:define name="valor">
+										<h:selectOneRadio id="slcSexo"
+											style="width: 100%; text-align:left"
+											value="#{historiaClinica.paciente.sexo}" required="true">
+											<f:selectItem itemLabel="Masculino" itemValue="Masculino" />
+											<f:selectItem itemLabel="Femenino" itemValue="Femenino" />
+										</h:selectOneRadio>
+									</ui:define>
+								</ui:decorate>
+							</div>
+						</div>
+						<div class="row cells8">
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblEstadoCivil" for="slcEstadoCivil"
+											value="Estado Civil: " />
+									</ui:define>
+									<ui:define name="valor">
+										<h:selectOneMenu id="slcEstadoCivil"
+											style="width: 100%; text-align:left"
+											value="#{historiaClinica.paciente.estadoCivil}"
+											required="true">
+											<f:selectItem
+												itemLabel="#{formGeneralesConstantes.appSeleccione}"
+												itemValue="#{formGeneralesConstantes.appIdBase}" />
+											<f:selectItem itemLabel="Soltero" itemValue="Soltero" />
+											<f:selectItem itemLabel="Divorciado" itemValue="Divorciado" />
+											<f:selectItem itemLabel="Unión libre" itemValue="Unión libre" />
+											<f:selectItem itemLabel="Viudo" itemValue="Viudo" />
+										</h:selectOneMenu>
+									</ui:define>
+								</ui:decorate>
+							</div>
+						</div>
+					</div>
+				</p:panel>
+				<p:panel id="pnlInformacionContacto"
+					header="Información de Contacto">
+					<div class="grid condensed">
+						<div class="row cells8">
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblTelefonoFijo" for="txtTelefonoFijo"
+											value="Teléfono Fijo: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputMask id="txtTelefonoFijo" mask="999 999 999"
+											style="width:97%;"
+											value="#{historiaClinica.paciente.telefonoFijo}">
+										</p:inputMask>
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblTelefonoMovil" for="txtTelefonoMovil"
+											value="Teléfono Móvil: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputMask id="txtTelefonoMovil" mask="999 999 9999"
+											style="width:97%;"
+											value="#{historiaClinica.paciente.telefonoMovil}">
+										</p:inputMask>
+									</ui:define>
+									<ui:define name="etiquetaError">
+										<p:message id="msgTelefonoMovil" for="txtTelefonoMovil" />
+									</ui:define>
+								</ui:decorate>
+							</div>
+						</div>
+						<div class="row cells8">
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblEmailPersonal" for="txtEmailPersonal"
+											value="Email Personal: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputText id="txtEmailPersonal" maxlength="50"
+											style="width:97%;"
+											value="#{historiaClinica.paciente.emailPersonal}">
+										</p:inputText>
+									</ui:define>
+									<ui:define name="etiquetaError">
+										<p:message id="msgEmailPersonal" for="txtEmailPersonal" />
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblEmailInstitucional"
+											for="txtEmailInstitucional" value="Email Institucional: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputText id="txtEmailInstitucional" maxlength="50"
+											style="width:97%;"
+											value="#{historiaClinica.paciente.emailInstitucional}">
+										</p:inputText>
+									</ui:define>
+									<ui:define name="etiquetaError">
+										<p:message id="msgEmailInstitucional"
+											for="txtEmailInstitucional" />
+									</ui:define>
+								</ui:decorate>
+							</div>
+						</div>
+					</div>
+				</p:panel>
+				<p:panel id="pnlInformacionGeografica"
+					header="Información Domiciliaria">
+					<div class="grid condensed">
+						<div class="row cells8">
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralDisplay.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblProvincia" for="slcProvincia"
+											value="Provincia: " />
+									</ui:define>
+									<ui:define name="valor">
+										<h:selectOneMenu id="slcProvincia" style="width: 100%;"
+											value="#{historiaClinica.paciente.ubicacion.ubicacion.ubicacion.codigo}">
+											<f:selectItem
+												itemLabel="#{formGeneralesConstantes.appSeleccione}"
+												itemValue="#{formGeneralesConstantes.appIdBase}" />
+											<f:selectItem itemLabel="Pichincha" itemValue="PROV01" />
+										</h:selectOneMenu>
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralDisplay.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblCanton" for="slcCanton" value="Cantón: " />
+									</ui:define>
+									<ui:define name="valor">
+										<h:selectOneMenu id="slcCanton" style="width: 100%;"
+											value="#{historiaClinica.paciente.ubicacion.ubicacion.codigo}">
+											<f:selectItem
+												itemLabel="#{formGeneralesConstantes.appSeleccione}"
+												itemValue="#{formGeneralesConstantes.appIdBase}" />
+											<f:selectItem itemLabel="Quito" itemValue="CAN01" />
+										</h:selectOneMenu>
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralDisplay.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblParroquia" for="slcParroquia"
+											value="Parroquia: " />
+									</ui:define>
+									<ui:define name="valor">
+										<h:selectOneMenu id="slcParroquia" style="width: 100%;"
+											value="#{historiaClinica.paciente.ubicacion.codigo}">
+											<f:selectItem
+												itemLabel="#{formGeneralesConstantes.appSeleccione}"
+												itemValue="#{formGeneralesConstantes.appIdBase}" />
+											<f:selectItem itemLabel="Chillogallo" itemValue="PAR01" />
+											<f:selectItem itemLabel="La Ecuatoriana" itemValue="PAR02" />
+											<f:selectItem itemLabel="La Floresta" itemValue="PAR03" />
+											<f:selectItem itemLabel="La Forestal" itemValue="PAR04" />
+										</h:selectOneMenu>
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralDisplay.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblZona" for="slcZona" value="Zona: " />
+									</ui:define>
+									<ui:define name="valor">
+										<h:selectOneRadio id="slcZona"
+											style="width: 100%; text-align:left" required="true"
+											value="#{historiaClinica.paciente.zona}">
+											<f:selectItem itemLabel="Urbana" itemValue="Urbana" />
+											<f:selectItem itemLabel="Rural" itemValue="Rural" />
+										</h:selectOneRadio>
+									</ui:define>
+								</ui:decorate>
+							</div>
+						</div>
+						<div class="row cells8">
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblSectorDomicilio"
+											for="txtSectorDomicilio" value="Sector del Domicilio: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputText id="txtSectorDomicilio" style="width:97%;"
+											required="true" value="#{historiaClinica.paciente.sector}">
+										</p:inputText>
+									</ui:define>
+									<ui:define name="etiquetaError">
+										<p:message id="msgSectorDomicilio" for="txtSectorDomicilio" />
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblCallePrincipal" for="txtCallePrincipal"
+											value="Calle Principal: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputText id="txtCallePrincipal" style="width:97%;"
+											required="true"
+											value="#{historiaClinica.paciente.callePrincipal}">
+										</p:inputText>
+									</ui:define>
+									<ui:define name="etiquetaError">
+										<p:message id="msgCallePrincipal" for="txtCallePrincipal" />
+									</ui:define>
+								</ui:decorate>
+							</div>
+						</div>
+
+						<div class="row cells8">
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblCalleSecundaria"
+											for="txtCalleSecundaria" value="Calle Secundaria: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputText id="txtCalleSecundaria" style="width:97%;"
+											value="#{historiaClinica.paciente.calleSecundaria}">
+										</p:inputText>
+									</ui:define>
+									<ui:define name="etiquetaError">
+										<p:message id="msgCalleSecundaria" for="txtCalleSecundaria" />
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblNumeroCasa" for="txtNumeroCasa"
+											value="Número de Casa: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputText id="txtNumeroCasa" style="width:97%;"
+											value="#{historiaClinica.paciente.numeroCasa}">
+										</p:inputText>
+									</ui:define>
+									<ui:define name="etiquetaError">
+										<p:message id="msgNumeroCasa" for="txtNumeroCasa" />
+									</ui:define>
+								</ui:decorate>
+							</div>
+						</div>
+						<div class="cell colspan4">
+							<ui:decorate
+								template="/plantillas/pltComponenteGeneralEdit.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblReferenciaDomicilio"
+										for="txtReferenciaDomicilio"
+										value="Referencia del Domicilio: " />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText id="txtReferenciaDomicilio" style="width:97%;"
+										value="#{historiaClinica.paciente.referencia}">
+									</p:inputText>
+								</ui:define>
+								<ui:define name="etiquetaError">
+									<p:message id="msgReferenciaDomicilio"
+										for="txtReferenciaDomicilio" />
+								</ui:define>
+							</ui:decorate>
+						</div>
+					</div>
+				</p:panel>
+				<p:panel id="pnlInformacionReferencial"
+					header="Información Referencial">
+					<div class="grid condensed">
+						<div class="row cells8">
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblFamiliar" for="txtFamiliar"
+											value="Nombre del Familiar: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputText id="txtFamiliar" style="width:97%;"
+											value="#{historiaClinica.historiaClinica.familiar}">
+										</p:inputText>
+									</ui:define>
+									<ui:define name="etiquetaError">
+										<p:message id="msgFamiliar" for="txtFamiliar" />
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralDisplay.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblParentescoFamiliar"
+											for="slcParentescoFamiliar" value="Parentesco del Familiar: " />
+									</ui:define>
+									<ui:define name="valor">
+										<h:selectOneMenu id="slcParentescoFamiliar"
+											style="width: 100%;"
+											value="#{historiaClinica.historiaClinica.parentescoFamiliar}">
+											<f:selectItem
+												itemLabel="#{formGeneralesConstantes.appSeleccione}"
+												itemValue="#{formGeneralesConstantes.appIdBase}" />
+											<f:selectItem itemLabel="Tío" itemValue="Urbana" />
+											<f:selectItem itemLabel="Tía" itemValue="Tía" />
+											<f:selectItem itemLabel="Abuelo" itemValue="Abuelo" />
+											<f:selectItem itemLabel="Abuela" itemValue="Abuela" />
+											<f:selectItem itemLabel="Primo" itemValue="Primo" />
+											<f:selectItem itemLabel="Prima" itemValue="Prima" />
+											<f:selectItem itemLabel="Sobrino" itemValue="Sobrino" />
+											<f:selectItem itemLabel="Sobrina" itemValue="Sobrina" />
+										</h:selectOneMenu>
+									</ui:define>
+								</ui:decorate>
+							</div>
+						</div>
+						<div class="row cells8">
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblTelefonoFamiliar"
+											for="txtTelefonoFamiliar" value="Teléfono del Familiar: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputNumber id="txtTelefonoFamiliar" minValue="0000000000"
+											maxValue="9999999999" maxlength="10" thousandSeparator=""
+											decimalPlaces="0" style="width:97%;"
+											value="#{historiaClinica.historiaClinica.telefonoFamiliar}">
+										</p:inputNumber>
+									</ui:define>
+									<ui:define name="etiquetaError">
+										<p:message id="msgTelefonoFamiliar" for="txtTelefonoFamiliar" />
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblDireccionFamiliar"
+											for="txtDireccionFamiliar" value="Dirección del Familiar: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputText id="txtDireccionFamiliar" style="width:97%;"
+											value="#{historiaClinica.historiaClinica.direccionFamiliar}">
+										</p:inputText>
+									</ui:define>
+									<ui:define name="etiquetaError">
+										<p:message id="msgDireccionFamiliar"
+											for="txtDireccionFamiliar" />
+									</ui:define>
+								</ui:decorate>
+							</div>
+						</div>
+
+					</div>
+				</p:panel>
+				<p:panel id="pnlInformacionSecundaria"
+					header="Información Secundaria">
+					<div class="grid condensed">
+						<div class="row cells8">
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralDisplay.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblTipoPaciente" for="slcTipoPaciente"
+											value="Tipo Paciente: " />
+									</ui:define>
+									<ui:define name="valor">
+										<h:selectOneMenu id="slcTipoPaciente" style="width: 100%;"
+											value="#{historiaClinica.paciente.tipo}">
+											<f:selectItem
+												itemLabel="#{formGeneralesConstantes.appSeleccione}"
+												itemValue="#{formGeneralesConstantes.appIdBase}" />
+											<f:selectItem itemLabel="Estudiante" itemValue="Estudiante" />
+											<f:selectItem itemLabel="Profesor" itemValue="Profesor" />
+											<f:selectItem itemLabel="Empleado" itemValue="Empleado" />
+										</h:selectOneMenu>
+
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblNumeroUnico" for="txtNumeroUnico"
+											value="Número Único: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputNumber id="txtNumeroUnico" minValue="000000000"
+											maxValue="999999999" maxlength="9" thousandSeparator=""
+											decimalPlaces="0" style="width:97%;"
+											value="#{historiaClinica.paciente.numeroUnico}">
+										</p:inputNumber>
+									</ui:define>
+									<ui:define name="etiquetaError">
+										<p:message id="msgNumeroUnico" for="txtNumeroUnico" />
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralDisplay.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblFacultad" for="slcFacultad"
+											value="Facultad: " />
+									</ui:define>
+									<ui:define name="valor">
+										<h:selectOneMenu id="slcFacultad" style="width: 100%;"
+											value="#{historiaClinica.paciente.carrera.facultad.codigo}">
+											<f:selectItem
+												itemLabel="#{formGeneralesConstantes.appSeleccione}"
+												itemValue="#{formGeneralesConstantes.appIdBase}" />
+											<f:selectItem itemLabel="Ingeniería de Sistemas"
+												itemValue="FAC001" />
+										</h:selectOneMenu>
+
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralDisplay.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblCarrera" for="slcCarrera"
+											value="Facultad: " />
+									</ui:define>
+									<ui:define name="valor">
+										<h:selectOneMenu id="slcCarrera" style="width: 100%;"
+											value="#{historiaClinica.paciente.carrera.codigo}">
+											<f:selectItem
+												itemLabel="#{formGeneralesConstantes.appSeleccione}"
+												itemValue="#{formGeneralesConstantes.appIdBase}" />
+											<f:selectItem
+												itemLabel="Ingeniería en Sistemas Informáticos y de Computación"
+												itemValue="CAR001" />
+										</h:selectOneMenu>
+
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblDiscapacidad" value="Discapacidad: " />
+									</ui:define>
+									<ui:define name="valor">
+										<h:selectOneRadio id="slcDiscapacidad"
+											style="width: 100%; text-align:left"
+											value="#{historiaClinica.historiaClinica.discapacidad}">
+											<f:selectItem itemLabel="Si" itemValue="true" />
+											<f:selectItem itemLabel="No" itemValue="false" />
+										</h:selectOneRadio>
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralDisplay.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblTipoDiscapacidad"
+											for="slcTipoDiscapacidad" value="Tipo Discapacidad: " />
+									</ui:define>
+									<ui:define name="valor">
+										<h:selectOneMenu id="slcTipoDiscapacidad" style="width: 100%;"
+											value="#{historiaClinica.historiaClinica.tipoDiscapacidad}">
+											<f:selectItem
+												itemLabel="#{formGeneralesConstantes.appSeleccione}"
+												itemValue="#{formGeneralesConstantes.appIdBase}" />
+											<f:selectItem itemLabel="Alta" itemValue="Alta" />
+											<f:selectItem itemLabel="Media" itemValue="Media" />
+											<f:selectItem itemLabel="Baja" itemValue="Baja" />
+											<f:selectItem itemLabel="Ninguna" itemValue="Ninguna" />
+										</h:selectOneMenu>
+									</ui:define>
+								</ui:decorate>
+							</div>
+						</div>
+						<div class="cell colspan4">
+							<ui:decorate
+								template="/plantillas/pltComponenteGeneralEdit.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblSeguroSalud" value="Seguro de Salud: " />
+								</ui:define>
+								<ui:define name="valor">
+									<h:selectOneRadio id="slcSeguroSalud"
+										style="width: 100%; text-align:left"
+										value="#{historiaClinica.historiaClinica.seguroSalud}"
+										required="true">
+										<f:selectItem itemLabel="Si" itemValue="true" />
+										<f:selectItem itemLabel="No" itemValue="false" />
+									</h:selectOneRadio>
+								</ui:define>
+							</ui:decorate>
+						</div>
+					</div>
+				</p:panel>
+			</p:panel>
+			<div>
+				<p:commandButton id="btnCancelar" value="Cancelar"
+					action="#{general.irMenuPrincipal}" ajax="false" immediate="true" />
+				<p:commandButton id="btnGuardar" value="Guardar"
+					action="#{historiaClinica.guardar}" ajax="false" />
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

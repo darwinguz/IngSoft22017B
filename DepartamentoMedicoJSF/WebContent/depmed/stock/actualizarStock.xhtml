@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition
+	template="/plantillas/pltPrincipalSinMenuEjecModal.xhtml">
+	<ui:define name="paginacion">
+		<ui:include src="/plantillas/pltPaginacion.xhtml">
+			<ui:param name="pagina" value="Stock / Consultar Medicamento" />
+		</ui:include>
+	</ui:define>
+	<ui:define name="cuerpo">
+		<script language="JavaScript">
+		//<![CDATA[
+		  function stopRKey(evt) { 
+		     var evt = (evt) ? evt : ((event) ? event : null); 
+		     var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null); 
+		     if ((evt.keyCode == 13) && (node.type=="text"))  {return false;} 
+		  } 
+		  document.onkeypress = stopRKey; 
+		//]]> 
+		</script>
+		<h:form id="frmIngresarMedicamento" enctype="multipart/form-data"
+			acceptcharset="UTF-8" class="uce-panel-header">
+			<p:growl for="alertas" autoUpdate="true" showDetail="true" />
+			<p:panel id="pnlFormMedicamento"
+				header="Formulario de Consulta de Medicamentos">
+				<p:panel id="pnlBusqueda" header="Ingrese los datos para buscar">
+					<div class="grid condensed">
+						<!-- ******************** FILA NUMERO 1 ************************ -->
+						<div class="row cells8">
+							<div class="cell colspan3">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralDisplayUpload.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblNombreMedicamento"
+											for="txtNombreMedicamento" value="Nombre del Medicamento: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputText id="txtNombreMedicamento"
+											value="#{actualizarMedicamentos.nombreMedicamento}"
+											style="width:95%" />
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<p:commandButton id='btnBuscar' value="Buscar"
+								action="#{actualizarMedicamentos.buscar()}"
+								onclick="PF('dialogoTrabajando').show();"
+								oncomplete="PF('dialogoTrabajando').show();" ajax="false"
+								update=":frmBuscarPaciente:pnlBusqueda , :frmBuscarPaciente:pnlResultados" />
+							<p:commandButton id="btnLimpiar" value="Limpiar"
+								action="#{actualizarMedicamentos.limpiar()}"
+								update=":frmBuscarPaciente:pnlBusqueda , :frmBuscarPaciente:pnlResultados"
+								ajax="false" />
+						</div>
+					</div>
+
+				</p:panel>
+
+				<p:panel id="pnlStock" header="Resultados de la Búsqueda"
+					rendered="#{actualizarMedicamentos.resultados}">
+					<div class="grid condensed">
+						<div class="row cells8">
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblCodigo" for="txtCodigo" value="Código: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputText id="txtCodigo" maxlength="6" style="width:97%;"
+											value="#{actualizarMedicamentos.medicamento.codigo}">
+										</p:inputText>
+									</ui:define>
+								</ui:decorate>
+							</div>
+						</div>
+						<div class="row cells8">
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblNombreGenerico" for="txtNombreGenerico"
+											value="Nombre Genérico: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputText id="txtNombreGenerico" style="width:97%;"
+											value="#{actualizarMedicamentos.medicamento.nombreGenerico}">
+										</p:inputText>
+									</ui:define>
+								</ui:decorate>
+							</div>
+							<div class="cell colspan4">
+								<ui:decorate
+									template="/plantillas/pltComponenteGeneralEdit.xhtml">
+									<ui:define name="etiqueta">
+										<p:outputLabel id="lblFormaFarmaceutica"
+											for="txtFormaFarmaceutica" value="Forma Farmaceutica: " />
+									</ui:define>
+									<ui:define name="valor">
+										<p:inputText id="txtFormaFarmaceutica" style="width:97%;"
+											value="#{actualizarMedicamentos.medicamento.formaFarmaceutica}">
+										</p:inputText>
+									</ui:define>
+								</ui:decorate>
+							</div>
+						</div>
+					</div>
+					<p:dataTable id="tblMedicamentos" rows="10" paginator="true"
+						var="item" value="#{actualizarMedicamentos.medicamento.stocks}"
+						paginatorTemplate="{FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						rowsPerPageTemplate="5,10,15"
+						emptyMessage="NO HAY NINGÚN ITEM INGRESADO AÚN">
+						<p:column headerText="Cantidad"
+							style="width: 3em ! important; text-align:left">
+							<h:outputText value="#{item.cantidadActual}" />
+						</p:column>
+						<p:column headerText="Fecha de Caducidad"
+							style="width: 5em ! important; text-align:left">
+							<h:outputText value="#{item.fechaCaducidad}" />
+						</p:column>
+						<p:column headerText="Fecha y Hora de Actualización"
+							style="width: 2em ! important; text-align:center">
+							<h:outputText value="#{item.fechaHoraActualizacion}" />
+						</p:column>
+					</p:dataTable>
+				</p:panel>
+			</p:panel>
+			<div>
+				<p:commandButton id="btnRegresar" value="Regresar"
+					action="#{general.irMenuPrincipal}" ajax="false" immediate="true" />
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

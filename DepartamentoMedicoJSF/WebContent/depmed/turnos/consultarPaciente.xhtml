@@ -1,0 +1,144 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition
+	template="/plantillas/pltPrincipalSinMenuEjecModal.xhtml">
+
+	<ui:define name="paginacion">
+		<ui:include src="/plantillas/pltPaginacion.xhtml">
+			<ui:param name="pagina" value="Turnos / Paciente" />
+		</ui:include>
+	</ui:define>
+
+	<ui:define name="cuerpo">
+		<h:form id="frmBuscarPaciente" enctype="multipart/form-data"
+			acceptcharset="UTF-8">
+			<p:panel id="pnlBusqueda" header="Ingrese los datos para buscar">
+				<div class="grid condensed">
+					<!-- ******************** FILA NUMERO 1 ************************ -->
+					<div class="row cells8">
+						<div class="cell colspan3">
+							<ui:decorate
+								template="/plantillas/pltComponenteGeneralDisplayUpload.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblCedula" for="txtCedula"
+										value="Número de Cédula: " />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText id="txtCedula" value="#{turnos.numeroCedula}"
+										style="width:95%" />
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<p:commandButton id='btnBuscar' value="Buscar"
+							action="#{turnos.buscarPaciente()}"
+							onclick="PF('dialogoTrabajando').show();"
+							oncomplete="PF('dialogoTrabajando').show();" ajax="false"
+							update=":frmBuscarPaciente:pnlBusqueda , :frmBuscarPaciente:pnlResultados" />
+						<p:commandButton id="btnLimpiar" value="Limpiar"
+							action="#{turnos.limpiar()}"
+							update=":frmBuscarPaciente:pnlBusqueda , :frmBuscarPaciente:pnlResultados"
+							ajax="false" />
+					</div>
+				</div>
+
+			</p:panel>
+			<p:panel id="pnlResultados" header="Resultados de la búsqueda"
+				rendered="#{turnos.resultados==true?'true':'false'}">
+				<div class="grid condensed">
+					<div class="row cells8">
+						<div class="cell colspan4">
+							<ui:decorate
+								template="/plantillas/pltComponenteGeneralEdit.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblPaciente" for="txtPaciente"
+										value="Paciente: " />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText id="txtPaciente" style="width:97%;"
+										readonly="true"
+										value="#{turnos.paciente.primerNombre} #{turnos.paciente.segundoNombre} #{turnos.paciente.primerApellido} #{turnos.paciente.segundoApellido}">
+									</p:inputText>
+								</ui:define>
+							</ui:decorate>
+						</div>
+					</div>
+					<div class="row cells8">
+						<div class="cell colspan4">
+							<ui:decorate
+								template="/plantillas/pltComponenteGeneralEdit.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblFechaNacimiento" for="txtFechaNacimiento"
+										value="Fecha de nacimiento: " />
+								</ui:define>
+								<ui:define name="valor">
+									<p:calendar id="txtFechaNacimiento" navigator="false"
+										showOn="none" locale="es" pattern="dd-MM-yyyy" mask="true"
+										placeholder="dd-MM-yyyy"
+										sconverterMessage="La fecha ingresada no es válida. (dd-mm-aaaa) Ejemplo: 26-05-2016"
+										value="#{turnos.paciente.fechaNacimiento}" readonly="true">
+									</p:calendar>
+								</ui:define>
+							</ui:decorate>
+						</div>
+						<div class="cell colspan4">
+							<ui:decorate
+								template="/plantillas/pltComponenteGeneralDisplay.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblSexo" for="txtSexo" value="Sexo: " />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText id="txtSexo" value="#{turnos.paciente.sexo}">
+									</p:inputText>
+								</ui:define>
+							</ui:decorate>
+						</div>
+					</div>
+					<div class="row cells8">
+						<div class="cell colspan4">
+							<ui:decorate
+								template="/plantillas/pltComponenteGeneralEdit.xhtml">
+								<ui:define name="etiqueta">
+									<p:outputLabel id="lblEstadoCivil" for="txtEstadoCivil"
+										value="Estado Civil: " />
+								</ui:define>
+								<ui:define name="valor">
+									<p:inputText id="txtEstadoCivil" readonly="true"
+										value="#{turnos.paciente.estadoCivil}">
+									</p:inputText>
+								</ui:define>
+							</ui:decorate>
+						</div>
+					</div>
+				</div>
+			</p:panel>
+			<div>
+				<p:commandButton id="btnRegresar" value="Regresar"
+					action="#{general.irMenuPrincipal()}" ajax="false" immediate="true" />
+
+				<p:commandButton id="btnContinuar" value="Continuar"
+					rendered="#{turnos.resultados==true?'true':'false'}"
+					action="#{turnos.irEspecialidades()}" ajax="false" immediate="true" />
+
+				<p:commandButton id="btnNuevo" value="Nuevo"
+					rendered="#{agendamientoForm.afRenderPaciente==0?'true':'false'}"
+					onclick="PF('dialogoTrabajando').show();"
+					oncomplete="PF('dialogoTrabajando').hide();"
+					update=":frmBuscarPaciente:pnlResultados"
+					action="#{historiaClinicaForm.irCrearHistoria(sesionUsuarioForm.frmSuUsuario)}"
+					ajax="false" />
+				<p:commandButton id="btnEditar" value="Editar"
+					rendered="#{agendamientoForm.afRenderPaciente==1?'true':'false'}"
+					onclick="PF('dialogoTrabajando').show();"
+					oncomplete="PF('dialogoTrabajando').hide();"
+					action="#{historiaClinicaForm.irEditarHistoria(agendamientoForm.afPacienteCedula)}"
+					ajax="false" />
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>
